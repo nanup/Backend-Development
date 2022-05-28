@@ -11,22 +11,37 @@ let dateOptions = {
 }
 let date = todate.toLocaleDateString("en-US", dateOptions);
 
-let entryItems = [];
+let dateEntryItems = [];
+let workEntryItems = [];
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 app.get("/", function(req, res) {
-    res.render("list", {date: date, entryItems: entryItems})
+    res.render("list", {listTitle: date, entryItems: dateEntryItems})
 })
 
 app.post("/", function(req, res) {
     let newEntryItem = req.body.newEntry;
 
-    entryItems.push(newEntryItem);
+    if (req.body.button == "Work List") {
+        workEntryItems.push(newEntryItem);
 
-    res.redirect("/");
+        res.redirect("/work");
+    } else {
+        dateEntryItems.push(newEntryItem);
+
+        res.redirect("/");
+    }
+})
+
+app.get("/work", function (req, res) {
+    res.render("list", {listTitle: "Work List", entryItems: workEntryItems})
+})
+
+app.get("/about", function(req, res) {
+    res.render("about");
 })
 
 app.listen(3000, function () {
