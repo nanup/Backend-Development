@@ -1,0 +1,24 @@
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.navbar {
+    padding: 25px;
+}
+
+.navbar-nav li a:hover {
+    color: #1ABC9C !important;
+}
+
+.footer {
+    position: absolute;
+    text-align: center;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
+}
+
+.btn {
+    margin-top: 10px;
+}
