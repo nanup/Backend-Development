@@ -1,37 +1,86 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require ("mongoose");
 
-const client = new MongoClient("mongodb://localhost:27017");
+mongoose.connect ("mongodb://localhost:27017/fruitsDB");
 
-async function run() {
-  try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Connected successfully to server");
+const fruitSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [
+        true,
+        "Name is required"
+    ]
+  },
+  color: String
+})
 
-    const database = client.db("fruitsDB");
+const Fruit = mongoose.model("Fruit", fruitSchema);
 
-    const fruits = database.collection("fruits");
+const fruit = new Fruit ({
+  name: "Pineapple",
+  color: "Yellow and Green"
+});
 
-    const doc = [{
-        name: "banana",
-        color: "yellow"
-    },
-    {
-        name: "apple",
-        color: "red"
-    },
-    {
-        name: "pineapple",
-        color:"mixed"
-    }];
+// fruit.save();
 
-    const cursor = fruits.find({});
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  favFruit: fruitSchema
+});
 
-    await cursor.forEach(console.log);
+const Person = mongoose.model("Person", personSchema);
 
-  } finally {
-    await client.close();
+// const person = new Person ({
+//   name: "John",
+//   age: 37
+// });
+
+// person.save();
+
+// Fruit.find(function (err, fruits) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     mongoose.connection.close();
+
+//     fruits.forEach(function(fruit) {
+//       console.log(fruit.name);
+//     });
+//   }
+// });
+
+Person.updateOne({name: "John"}, {favFruit: fruit}, function(err){
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Successfully updated favorite fruit.")
   }
-}
+});
 
-run().catch(console.dir);
+Person.find(function (err, persons) {
+  if (err) {
+    console.log(err);
+  } else {
+    mongoose.connection.close();
+
+    persons.forEach(function(person) {
+      console.log(person);
+    });
+  }
+});
+
+// Person.deleteOne({name: "John"}, function(err) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Successfully deleted");
+//   }
+// })
+
+// Fruit.deleteMany({name: "Pineapple"}, function(err) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Successfully deleted");
+//   }
+// })
