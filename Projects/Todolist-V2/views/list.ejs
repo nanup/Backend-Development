@@ -1,0 +1,23 @@
+<%- include ("header") -%>
+
+    <div class="box" id="heading">
+        <h1><%= listTitle %></h1>
+    </div>
+    
+    <div class="box">
+        <%for (entry in entryItems) {%>
+            <form action="/delete" method="POST">
+                <div class="item">
+                    <input type="checkbox" name="oldEntry" value="<%= entryItems[entry].id %>" onchange="this.form.submit()">
+                    <p><%= entryItems[entry].name %></p>
+                </div>
+            </form>
+        <%}%>
+
+        <form class="item" action="/" method="POST">
+            <input placeholder="Create a task" type="text" name="newEntry" autofocus autocomplete="off">
+            <button type="submit" name="button" value="<%= listTitle %>">+</button>
+        </form>
+    </div>
+
+<%- include ("footer") -%>
