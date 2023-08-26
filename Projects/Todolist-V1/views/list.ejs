@@ -1,21 +1,36 @@
 <%- include ("header") -%>
 
-    <div class="box" id="heading">
-        <h1><%= listTitle %></h1>
-    </div>
-    
-    <div class="box">
-        <%for (entry in entryItems) {%>
-        <div class="item">
-            <input type="checkbox">
-            <p><%= entryItems[entry] %></p>
-        </div>
-        <%}%>
+<div
+  class="box"
+  id="heading">
+  <h1><%= listTitle %></h1>
+</div>
 
-        <form class="item" action="/" method="POST">
-            <input placeholder="Create a task" type="text" name="newEntry" autofocus autocomplete="off">
-            <button type="submit" name="button" value="<%= listTitle %>">+</button>
-        </form>
-    </div>
+<div class="box">
+  <%for (entry in entryItems) {%>
+  <div class="item">
+    <input type="checkbox" />
+    <p><%= entryItems[entry] %></p>
+  </div>
+  <%}%>
+
+  <form
+    class="item"
+    action="/"
+    method="POST">
+    <input
+      placeholder="Create a task"
+      type="text"
+      name="newEntry"
+      autofocus
+      autocomplete="off" />
+    <button
+      type="submit"
+      name="button"
+      value="<%= listTitle %>">
+      +
+    </button>
+  </form>
+</div>
 
 <%- include ("footer") -%>
